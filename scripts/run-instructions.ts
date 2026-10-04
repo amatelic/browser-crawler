@@ -1,5 +1,5 @@
 /**
- * CLI: `pnpm --filter @doha/browser-crawler crawl -- --file recipe.json`
+ * CLI: `pnpm crawl -- --file recipe.json` (package: @amatelic/browser-crawler)
  * Reads a JSON or JSONL instruction file (or `-` stdin), prints the
  * RunReport JSON to stdout, a human summary to stderr. Exit codes:
  * 0 ok · 2 validation · 3 politeness deny · 4 step failure.
@@ -8,9 +8,9 @@
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 import type { RobotsFetchOutcome } from "../src/politeness/robots";
-import { loadConfig } from "@doha/browser-crawler";
-import { parseInstructionInput, validateInstructionSet } from "@doha/browser-crawler";
-import { runInstructions, type BrowserCrawlerCapabilities } from "@doha/browser-crawler";
+import { loadConfig } from "../dist/index.js";
+import { parseInstructionInput, validateInstructionSet } from "../dist/index.js";
+import { runInstructions, type BrowserCrawlerCapabilities } from "../dist/index.js";
 
 interface CliArgs {
   file?: string;

@@ -1,5 +1,5 @@
 {
-  "name": "browser-crawler",
+  "name": "@amatelic/browser-crawler",
   "version": "0.2.0",
   "description": "Agent-first Playwright render tier: declarative JSON/JSONL browser recipes under a strict politeness regime (robots fail-closed, per-domain spacing, SSRF, deny-by-default allowlist). CLI + API + localhost HTTP surface; render-level cassettes replay byte-identical without a browser.",
   "main": "./dist/index.js",
