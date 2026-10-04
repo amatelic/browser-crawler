@@ -1,0 +1,18 @@
+{
+  "name": "praha-calendar",
+  "steps": [
+    { "label": "open calendar", "action": "open", "url": "https://www.praha.eu/kalendar",
+      "waitFor": { "state": "networkidle", "timeoutMs": 20000 } },
+    { "label": "banner", "action": "click", "target": { "selector": "#cookie-accept" }, "onError": "continue" },
+    { "label": "cards render", "action": "wait", "for": { "selector": "article, .event, [data-event]" }, "timeoutMs": 8000 },
+    { "label": "harvest", "action": "extract", "itemSelector": "article",
+      "fields": [
+        { "name": "title", "selector": "h2, h3", "as": "text" },
+        { "name": "url", "selector": "a", "as": "attr", "attr": "href" },
+        { "name": "date", "selector": "time", "as": "attr", "attr": "datetime" }
+      ],
+      "jsonLd": true, "refs": true, "limit": 100 },
+    { "label": "evidence", "action": "screenshot", "artifact": "praha-calendar-1.png" },
+    { "action": "done", "success": true }
+  ]
+}

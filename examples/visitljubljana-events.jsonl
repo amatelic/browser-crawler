@@ -1,0 +1,6 @@
+// one step per line
+{"label":"open events","action":"open","url":"https://www.visitljubljana.com/en/visitors/events/","waitFor":{"state":"networkidle","timeoutMs":20000}}
+{"label":"banner","action":"click","target":{"selector":"button:has-text(\"Accept\")"},"onError":"continue"}
+{"label":"wait cards","action":"wait","for":{"selector":"a[href*='/en/events/']","minCount":5},"timeoutMs":10000}
+{"label":"harvest links","action":"extract","links":{"selector":"a[href*='/en/events/']","limit":200},"jsonLd":true}
+{"action":"done","success":true}

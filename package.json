@@ -1,0 +1,57 @@
+{
+  "name": "browser-crawler",
+  "version": "0.2.0",
+  "description": "Agent-first Playwright render tier: declarative JSON/JSONL browser recipes under a strict politeness regime (robots fail-closed, per-domain spacing, SSRF, deny-by-default allowlist). CLI + API + localhost HTTP surface; render-level cassettes replay byte-identical without a browser.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "browser-crawler": "./scripts/run-instructions.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "crawl": "tsx scripts/run-instructions.ts",
+    "server": "tsx server/server.ts"
+  },
+  "keywords": [
+    "playwright",
+    "crawler",
+    "scraping",
+    "agent",
+    "recipes",
+    "headless",
+    "browser-automation",
+    "spa",
+    "json-protocol",
+    "politeness",
+    "robots-txt"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com/amatelic/browser-crawler.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.13",
+    "ipaddr.js": "^2.5.0",
+    "playwright": "1.62.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.23.1",
+    "typescript": "^5.6.3",
+    "vitest": "^4.0.17"
+  }
+}
