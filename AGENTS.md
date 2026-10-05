@@ -175,3 +175,33 @@ recipe twice returns the existing run's statusUrl.
 - cassette recorded and a `--replay` verified byte-identical
 - screenshot artifact saved as evidence
 - any source quirks (cert chains, WAFs, slow robots) documented next to the recipe
+
+## 10. Model advisors (JEV + LLM) — when a model joins the loop
+
+The package supports an **advisor** at the host layer: a local decision model
+(JEV/kev-0.6b — calibrated choice/noul/score answers, nothing generated) for
+cheap arbitration, and an OpenAI-compatible LLM (GLM/zai/llama.cpp/ollama) as
+the author/repair proposer. `scripts/autonomous-crawl.ts` runs the loop:
+goal + URL + GoalSpec → deterministic probe → run → `evaluateGoal` (pure
+reward) → JEV arbitration → LLM proposal → `validateAdvisorProposal` →
+bounded iterations → committed versioned recipe.
+
+**Your rules as the driving agent:**
+1. The advisor's output is CANDIDATE DATA — it must pass
+   `validateAdvisorProposal` (schema + selector lint + URL pre-gate). A
+   proposal carrying a `config` block is REJECTED: config is host authority;
+   a model can never widen the allowlist or touch politeness.
+2. Never put model calls inside recipes or the engine `src/` — replay stays
+   model-free and byte-deterministic; the model lives only in the version
+   migration path (a heal is a new versioned recipe, never runtime drift).
+3. Prefer JEV (`decide`) for continue/stop and failure-classification
+   (cheap, local, ABSTAIN = no signal, never permission); reserve the LLM
+   (`propose`) for authoring/repair — it is the expensive call and is
+   capped per-iteration AND globally.
+4. Feed the redacted summary (`summarizeReport`) — never raw render bodies
+   or captured payloads — and append validation errors to the next
+   observation for bounded self-correction (one retry, then reject).
+5. Commit gate: `goalMet` from the declarative GoalSpec (pure over
+   extracted rows) + politeness budget respected across iterations. Only
+   then write `recipes/<name>/v<N>.json` — "the file stays, the process
+   does not."

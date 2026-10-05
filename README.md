@@ -144,6 +144,16 @@ Error codes: `SELECTOR_NOT_FOUND · STALE_REF · TIMEOUT_NAVIGATION/ACTION · RO
 
 If YOU are an agent about to use this package: read **[AGENTS.md](./AGENTS.md)** first — it is the operating manual (tier decision, the probe recipe, wait-strategy table, error→recovery table, hard politeness rules, definition of a finished job).
 
+## Model advisors (JEV + LLM)
+
+Optional host-layer intelligence for the author/repair loop:
+`scripts/autonomous-crawl.ts <goal> <url>` composes a deterministic probe recipe → run →
+pure goal-validation (reward) → JEV arbitration (calibrated choice/noul/score via embedded
+[open-jev](https://www.npmjs.com/package/open-jev) or an HTTP decide endpoint) → LLM proposal
+(any OpenAI-compatible base: GLM/zai, llama.cpp, ollama) → schema-validated recipe → bounded
+iterations → committed versioned artifact. Model output is always candidate data; politeness
+and replay determinism are untouched (see AGENTS.md §10).
+
 ## Proven in the wild
 
 Shipped against praha.eu — a WAF-fronted Liferay SPA with an incomplete TLS chain that static crawlers score zero on: 310KB rendered DOM, 21 rows extracted, full politeness ledger, cassette replay in **2ms vs 35s live**. The debugging history (and every design decision, adversarially verified) is in [DESIGN.md](./DESIGN.md).

@@ -12,3 +12,10 @@ export { validateInstructionSet, parseInstructionInput, sha256Of } from "./instr
 export { runInstructions, StepError, type RunReport, type StepResult, type RenderSection, type BrowserCrawlerCapabilities } from "./runner/runner";
 
 export { PolitenessGate } from "./runner/gate";
+export {
+  ADVISOR_DECISION_GATES, AdvisorProposalSchema, GoalSpecSchema,
+  evaluateGoal, validateGoalSpec, validateAdvisorProposal, applyPatch, summarizeReport,
+  type RecipeAdvisor, type AdvisorQuestion, type AdvisorAnswer,
+  type AdvisorObservation, type AdvisorProposal, type RecipePatch,
+  type GoalSpec, type GoalValidation, type RunReportSummary, type DomHint,
+} from "./advisor/contracts";

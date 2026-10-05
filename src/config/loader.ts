@@ -82,8 +82,16 @@ export function loadConfig(path?: string, override?: ConfigOverride): BrowserCra
     // SAFETY: JSON.parse output narrows via isConfigOverride then TypeBox.
     const parsed: unknown = JSON.parse(readFileSync(effectivePath, "utf8"));
 
-    // SAFETY: unknown JSON narrows through the predicate before merge.
-    if (isConfigOverride(parsed)) applyOverride(merged, parsed);
+    // The FILE is operator authority: its politeness block replaces
+    // defaults wholesale (still schema-bounded by the validator below).
+    // RECIPE-level overrides below remain frozen (only maxPagesPerDomainPerRun
+    // may shrink, via applyPolitenessOverride).
+    if (isConfigOverride(parsed)) {
+      const { politeness: filePoliteness, ...rest } = parsed;
+
+      if (filePoliteness !== undefined) merged.politeness = filePoliteness;
+      applyOverride(merged, rest);
+    }
   }
 
   if (override) applyOverride(merged, override);
