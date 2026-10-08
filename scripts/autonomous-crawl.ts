@@ -174,13 +174,13 @@ export async function autonomousCrawl(input: {
 
     // JEV arbitration (cheap; abstain = no signal).
     const questions: AdvisorQuestion[] = [
-      { id: "iterate_more", kind: "noul", prompt: `Goal: ${input.goal.slice(0, 200)}. Current score ${validation.score.toFixed(2)}, iteration ${iteration + 1}/${budget.maxIterations}. Is another repair iteration worthwhile?` },
+      { id: "iterate_more", kind: "noul", prompt: `The recipe is only committed when every goal check passes. Goal: ${input.goal.slice(0, 200)}. Score ${validation.score.toFixed(2)}. Failing checks that BLOCK the commit: ${validation.checks.filter((c) => !c.pass).map((c) => `${c.id} (${c.detail})`).join("; ") || "none"}. Iteration ${iteration + 1}/${budget.maxIterations}; the data is incomplete until these are fixed. Is another repair iteration worthwhile?` },
     ];
 
     if (input.advisor.decide) {
       const decideStart = Date.now();
       const answers = await input.advisor.decide(
-        JSON.stringify(summarizeReport(report as never)).slice(0, 4000),
+        JSON.stringify({ goal: input.goal, checks: validation.checks, report: summarizeReport(report as never) }).slice(0, 4000),
         questions,
       );
 

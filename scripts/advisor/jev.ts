@@ -93,7 +93,7 @@ export function createEmbeddedJevAdvisor(): RecipeAdvisor {
 
       runtime = await mod.OpenJev!.load({ model, device: "cpu", dtype });
     } catch (error) {
-      process.stderr.write(`[jev-embedded] unavailable: ${error instanceof Error ? error.message : String(error)}\n`);
+      process.stderr.write(`[jev-embedded] unavailable: ${error instanceof Error ? (error.stack ?? error.message) : String(error)}\n`);
       runtime = null;
     }
 

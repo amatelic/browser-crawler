@@ -205,3 +205,14 @@ bounded iterations → committed versioned recipe.
    extracted rows) + politeness budget respected across iterations. Only
    then write `recipes/<name>/v<N>.json` — "the file stays, the process
    does not."
+
+**Live-run finding (kev-0.6b, 2026-10-04):** the model is fast (~100-500ms
+round-trip served over HTTP), well-gated (ABSTAIN paths fire correctly),
+but weak on numeric entailment — it voted iterate_more:false at 0.70-0.86
+confidence on states where 6 rows fell short of a 10-row goal, and p(yes)
+≈ 0.06 on a trivially-true numeric statement. Practical consequences:
+(a) keep iteration arbitration prompts qualitative, or verify numeric
+comparisons deterministically before asking; (b) the confidence gate is
+necessary but not sufficient — the deterministic commit gate must stay the
+final authority (it does); (c) for numeric-heavy arbitration, prefer the
+LLM decide() fallback.
